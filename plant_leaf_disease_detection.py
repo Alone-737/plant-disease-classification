@@ -31,7 +31,8 @@ from torch.utils.data import DataLoader,Dataset
 
 
 
-DATASET_DIR = os.path.join("plant disease classification", "data", "PlantVillage dataset")
+DATASET_DIR = os.path.join(................., "PlantVillage dataset")#add your path of the data here you can find the data used in 
+#https://www.kaggle.com/datasets/emmarex/plantdisease/data
 class_names = os.listdir(DATASET_DIR)
 print(len(class_names), class_names)
 
@@ -280,4 +281,5 @@ if __name__ == "__main__":
     print("SCRIPT EXECUTION COMPLETE!")
     print("="*50)
     print(f"Final Accuracy: {accuracy:.2f}")
+
     print(f"Models saved successfully")
