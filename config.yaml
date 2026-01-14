@@ -1,0 +1,109 @@
+# Plant Disease Classification Configuration
+
+# Data Configuration
+data:
+  dataset_path: "data/PlantVillage"
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  image_size: 224
+  num_classes: 38
+  augmentation:
+    enabled: true
+    horizontal_flip: true
+    vertical_flip: false
+    rotation_range: 10
+    color_jitter: 0.2
+    random_crop: false
+
+# Model Configuration
+model:
+  backbone: "efficientnet-b0"
+  pretrained: true
+  feature_dim: 1280
+  freeze_backbone: true  # Freeze pretrained weights
+  
+# Feature Extraction
+feature_extraction:
+  batch_size: 32
+  num_workers: 4
+  device: "cuda"  # cuda or cpu
+  cache_features: true
+  cache_path: "data/features_cache.pkl"
+  
+# SVM Configuration
+svm:
+  kernel: "rbf"
+  C: [1, 10, 100]
+  gamma: ["scale", "auto"]
+  class_weight: "balanced"
+  cv_folds: 5
+  n_iter: 10  # For HalvingGridSearchCV
+  scoring: "accuracy"
+  verbose: 2
+  n_jobs: -1  # Use all CPU cores
+
+# Training Configuration
+training:
+  random_seed: 42
+  test_size: 0.2
+  stratify: true
+  shuffle: true
+  
+# Paths
+paths:
+  features_cache: "data/features_cache.pkl"
+  label_encoder: "data/label_encoder.pkl"
+  svm_model: "data/svm_plant_disease_model.pkl"
+  feature_extractor: "data/feature_extractor.pth"
+  models_dir: "models/"
+  logs_dir: "logs/"
+  results_dir: "results/"
+  figures_dir: "figures/"
+
+# Visualization
+visualization:
+  save_confusion_matrix: true
+  save_class_distribution: true
+  save_sample_images: true
+  sample_images_per_class: 3
+  figsize_confusion_matrix: [15, 15]
+  dpi: 300
+  
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_to_file: true
+  log_file: "logs/training.log"
+  log_format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# Evaluation
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1_score
+  per_class_metrics: true
+  save_classification_report: true
+  report_path: "results/classification_report.txt"
+  
+# Inference
+inference:
+  batch_inference: true
+  confidence_threshold: 0.7
+  top_k_predictions: 3
+  
+# Experiment Tracking (optional)
+experiment:
+  use_wandb: false
+  wandb_project: "plant-disease-classification"
+  wandb_entity: null
+  experiment_name: "efficientnet-svm"
+  
+# Performance Optimization
+optimization:
+  use_mixed_precision: false
+  gradient_checkpointing: false
+  pin_memory: true
+  persistent_workers: false
