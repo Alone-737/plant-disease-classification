@@ -16,8 +16,6 @@ from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import HalvingGridSearchCV
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA
-from sklearn.pipeline import Pipeline
 
 import torch
 from torch import nn
